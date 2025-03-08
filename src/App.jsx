@@ -18,7 +18,82 @@ import {
   Title
 } from "chart.js";
 
+import styled from "styled-components";
+
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title);
+
+const Container = styled.div`
+  text-align: center;
+  margin-top: 50px;
+  font-family: Arial, sans-serif;
+`;
+
+const Title = styled.h1`
+  color: #4a90e2;
+  font-size: 2.5em;
+  margin-bottom: 20px;
+`;
+
+const Input = styled.input`
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
+`;
+
+const Button = styled.button`
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4a90e2;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #357ab8;
+  }
+`;
+
+const UserList = styled.ul`
+  list-style-type: none;
+  padding: 0;
+`;
+
+const UserItem = styled.li`
+  margin: 10px 0;
+  font-size: 1.2em;
+`;
+
+const EditButton = styled.button`
+  margin-left: 10px;
+  background-color: #f0ad4e;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ec971f;
+  }
+`;
+
+const DeleteButton = styled.button`
+  margin-left: 10px;
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #c9302c;
+  }
+`;
 
 function App() {
   const [name, setName] = useState("");
@@ -71,16 +146,16 @@ function App() {
   };
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>CRUD con Firebase y reportes</h1>
+    <Container>
+      <Title>CRUD con Firebase y reportes</Title>
 
-      <input
+      <Input
         type="text"
         value={name}
         onChange={(e) => setName(e.target.value)}
         placeholder="Nombre"
       />
-      <input
+      <Input
         type="number"
         value={age}
         onChange={(e) => setAge(e.target.value)}
@@ -88,16 +163,16 @@ function App() {
       />
 
       {editingId ? (
-        <button onClick={updateUser}>Actualizar</button>
+        <Button onClick={updateUser}>Actualizar</Button>
       ) : (
-        <button onClick={addUser}>Agregar</button>
+        <Button onClick={addUser}>Agregar</Button>
       )}
 
-      <ul>
+      <UserList>
         {users.map((user) => (
-          <li key={user.id}>
+          <UserItem key={user.id}>
             {user.name} - {user.age} años
-            <button
+            <EditButton
               onClick={() => {
                 setName(user.name);
                 setAge(user.age.toString());
@@ -105,15 +180,15 @@ function App() {
               }}
             >
               ✏
-            </button>
-            <button onClick={() => deleteUser(user.id)}>🗑</button>
-          </li>
+            </EditButton>
+            <DeleteButton onClick={() => deleteUser(user.id)}>🗑</DeleteButton>
+          </UserItem>
         ))}
-      </ul>
+      </UserList>
 
       <h2>Reporte de Edades</h2>
       <Bar data={chartData} />
-    </div>
+    </Container>
   );
 }
 
